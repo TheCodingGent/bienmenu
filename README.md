@@ -1,6 +1,6 @@
 # bienmenu
 
-A new Flutter project.
+bienmenu Flutter app project
 
 ## Getting Started
 
