@@ -46,10 +46,13 @@ dependencies:
   # open file
   open_file: ^3.0.1
 
+  # fonts
+  google_fonts: ^1.1.0
+
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/bienmenu-logo.png"
+  image_path: "assets/images/bienmenu-app-icon.png"
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +75,7 @@ flutter:
   # https://flutter.dev/assets-and-images/#resolution-aware.
   assets:
     - assets/images/bienmenu-logo.png
+    - assets/images/bienmenu-app-icon.png
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
   # To add custom fonts to your application, add a fonts section here,
