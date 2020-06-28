@@ -31,9 +31,6 @@ dependencies:
   # plugin for scanning barcodes
   barcode_scan: ^3.0.1
 
-  # in-app browser
-  url_launcher: ^5.4.11
-
   # for setting android and ios icons
   flutter_launcher_icons: ^0.7.3
 

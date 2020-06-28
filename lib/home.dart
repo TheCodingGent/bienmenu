@@ -47,56 +47,59 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final size = 250.0 - 20.0 * _breathe;
     //final size = 250.0;
-    return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(20.0),
-        color: Colors.teal,
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              top: 120,
-              left: 0.0,
-              right: 0.0,
-              child: Container(
-                child: Text("Tap to Scan",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.lobsterTwo(
-                        fontStyle: FontStyle.normal,
-                        color: Colors.white,
-                        fontSize: 36)),
-              ),
+    return new WillPopScope(
+        onWillPop: () => SystemNavigator.pop(),
+        child: Scaffold(
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(20.0),
+            color: Colors.teal,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: 120,
+                  left: 0.0,
+                  right: 0.0,
+                  child: Container(
+                    child: Text("Tap to Scan",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.lobsterTwo(
+                            fontStyle: FontStyle.normal,
+                            color: Colors.white,
+                            fontSize: 36)),
+                  ),
+                ),
+                Positioned(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: GestureDetector(
+                        onTap: () async {
+                          debugPrint('Button clicked in page 1 clicked');
+
+                          await scan();
+
+                          if (scanSuccessful) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoadingPage(
+                                      barcode:
+                                          barcode)), // to send result returned from QR Code scan
+                            );
+                          }
+                        },
+                        child: Container(
+                            width: size,
+                            height: size,
+                            child: Image.asset(
+                                'assets/images/bienmenu-logo.png'))),
+                  ),
+                )
+              ],
             ),
-            Positioned(
-              child: Align(
-                alignment: Alignment.center,
-                child: GestureDetector(
-                    onTap: () async {
-                      debugPrint('Button clicked in page 1 clicked');
-
-                      //await scan();
-
-                      //if (scanSuccessful) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LoadingPage(
-                                barcode:
-                                    "5ef6df8bac275f69875e7dab")), // to send result returned from QR Code scan
-                      );
-                      //}
-                    },
-                    child: Container(
-                        width: size,
-                        height: size,
-                        child: Image.asset('assets/images/bienmenu-logo.png'))),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
 // scan a barcode and set the result into the state

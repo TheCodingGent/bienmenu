@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:bienmenu/home.dart';
 import 'package:bienmenu/model/menu.dart';
 import 'package:bienmenu/model/menutile.dart';
+import 'package:bienmenu/model/restaurant.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoadingPage extends StatefulWidget {
   // initialize a field to hold the qr code result from the home screen, represents the restaurant id
   final String barcode;
-  final String serverUrl = 'http://localhost:3000';
+  final String serverUrl = 'http://192.168.1.66:3000';
 
   // on creation this screen requires a string qrCodeResult
   LoadingPage({Key key, @required this.barcode}) : super(key: key);
@@ -29,6 +31,7 @@ class _LoadingPageState extends State<LoadingPage>
     with TickerProviderStateMixin {
   AnimationController _breathingController;
   var _breathe = 0.0;
+  Restaurant _restaurant;
 
   @override
   void initState() {
@@ -49,19 +52,22 @@ class _LoadingPageState extends State<LoadingPage>
     });
     _breathingController.forward();
 
-    // fetch the menus for a given restaurant
-    _fetchMenus(widget.barcode).then((menus) {
-      debugPrint('Fetched: ' +
-          menus.toString() +
-          ' for restaurant: ' +
-          widget.barcode);
-      if (menus.length == 0) {
+    // fetch the restaurant data given its id
+    _fetchRestaurant(widget.barcode).then((restaurant) {
+      debugPrint(
+          'Fetched: ' + restaurant.name + ' for restaurant: ' + widget.barcode);
+
+      setState(() {
+        _restaurant = restaurant;
+      });
+
+      if (restaurant.menus.length == 0) {
         // pop-up no menus found dialog and return to home screen after dialog is closed
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HomePage()));
       }
 
-      _fetchAllMenuPdfs(menus).then((menuTiles) {
+      _fetchAllMenuPdfs(restaurant.menus).then((menuTiles) {
         debugPrint(menuTiles.toString());
         if (menuTiles.length == 1) {
           // if there's only one pdf open it right away
@@ -75,6 +81,7 @@ class _LoadingPageState extends State<LoadingPage>
             MaterialPageRoute(
                 builder: (context) => MenuListPage(
                       menuTiles: menuTiles,
+                      restaurant: _restaurant,
                     )),
           );
         }
@@ -104,49 +111,55 @@ class _LoadingPageState extends State<LoadingPage>
   @override
   Widget build(BuildContext context) {
     final size = 250.0 - 20.0 * _breathe;
-    debugPrint(_breathe.toString());
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20.0),
         color: Colors.teal,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
           children: <Widget>[
-            Center(
+            Positioned(
+              top: 120,
+              left: 0.0,
+              right: 0.0,
               child: Container(
-                  width: size,
-                  height: size,
-                  child: Image.asset('assets/images/bienmenu-logo.png')),
+                child: Text("We are getting your menu ready",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.lobsterTwo(
+                        fontStyle: FontStyle.normal,
+                        color: Colors.white,
+                        fontSize: 24)),
+              ),
             ),
+            Positioned(
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                        width: size,
+                        height: size,
+                        child:
+                            Image.asset('assets/images/bienmenu-logo.png')))),
           ],
         ),
       ),
     );
   }
 
-// fetch all menus for a given restaurant
-  Future<List<Menu>> _fetchMenus(String restaurantId) async {
-    debugPrint('Fetching menus for...' + restaurantId);
+  Future<Restaurant> _fetchRestaurant(String restaurantId) async {
+    debugPrint('Fetching restaurant with id...' + restaurantId);
 
-    List<Menu> menus;
-    final url = widget.serverUrl + '/restaurants/menus/' + restaurantId;
-    debugPrint(url);
-    // get menus for given restaurant
     final response =
-        await http.get(widget.serverUrl + '/restaurants/menus/' + restaurantId);
+        await http.get(widget.serverUrl + '/restaurants/' + restaurantId);
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      var data = json.decode(response.body) as List;
-      menus = data.map<Menu>((json) => Menu.fromJson(json)).toList();
-      //return menus;
-      // wait 2 seconds before returning the result to simulate loading
+      Restaurant restaurant = Restaurant.fromJson(json.decode(response.body));
+
+      // wait 5 seconds before returning the result to simulate loading
       await new Future.delayed(const Duration(seconds: 3));
-      return menus;
+      return restaurant;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -156,8 +169,8 @@ class _LoadingPageState extends State<LoadingPage>
 
 // given a menu name fetch the pdf matching the pdf name from the server parse it into bytes then write it to a file
   Future<File> _fetchMenuPdf(String name) async {
-    final url = widget.serverUrl + "/menus/pdf/" + name;
-    final filename = name + '.pdf';
+    final url = widget.serverUrl + '/menu/pdf/' + _restaurant.id + '/' + name;
+    final filename = _restaurant.id + name + '.pdf';
     var request = await HttpClient().getUrl(Uri.parse(url));
     var response = await request.close();
 
@@ -221,34 +234,46 @@ class _LoadingPageState extends State<LoadingPage>
 // A list view that displays all available menus in a restaurant using a MenuTile that has a display name and a path to the pdf of the menu
 class MenuListPage extends StatelessWidget {
   final List<MenuTile> menuTiles;
-  MenuListPage({Key key, @required this.menuTiles}) : super(key: key);
+  final Restaurant restaurant;
+
+  MenuListPage({Key key, @required this.menuTiles, @required this.restaurant})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.home, color: Colors.white),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            ),
-          ),
-          title: Text("Menus"),
-        ),
-        body: ListView.builder(
-          itemCount: menuTiles.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                leading: Icon(Icons.picture_as_pdf),
-                title: Text(menuTiles[index].formatDisplayName()),
-                onTap: () {
-                  OpenFile.open(menuTiles[index].filePath);
-                },
+    return new WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.home, color: Colors.white),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                ),
               ),
-            );
-          },
-        ));
+              title: Text(restaurant.name + " Menus"),
+              backgroundColor: hexToColor(restaurant.color),
+            ),
+            body: ListView.builder(
+              itemCount: menuTiles.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    leading: Icon(Icons.picture_as_pdf),
+                    title: Text(menuTiles[index].formatDisplayName()),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                    onTap: () {
+                      OpenFile.open(menuTiles[index].filePath);
+                    },
+                  ),
+                );
+              },
+            )));
+  }
+
+  /// Construct a color from a hex code string, of the format #RRGGBB.
+  Color hexToColor(String code) {
+    return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }
 }

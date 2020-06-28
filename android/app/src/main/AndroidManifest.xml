@@ -9,6 +9,9 @@
     <!-- Require permission to use andorid device camera -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- Allow app to use the internet-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="bienmenu"
