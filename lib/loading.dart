@@ -29,28 +29,18 @@ class LoadingPage extends StatefulWidget {
 
 class _LoadingPageState extends State<LoadingPage>
     with TickerProviderStateMixin {
-  AnimationController _breathingController;
-  var _breathe = 0.0;
+  AnimationController _rotationController;
   Restaurant _restaurant;
 
   @override
   void initState() {
     // set up breathing animation controller
-    _breathingController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 700));
-    _breathingController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _breathingController.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        _breathingController.forward();
-      }
-    });
-    _breathingController.addListener(() {
-      setState(() {
-        _breathe = _breathingController.value;
-      });
-    });
-    _breathingController.forward();
+    _rotationController = new AnimationController(
+      vsync: this,
+      duration: new Duration(seconds: 5),
+    );
+
+    _rotationController.repeat();
 
     // fetch the restaurant data given its id
     _fetchRestaurant(widget.barcode).then((restaurant) {
@@ -109,8 +99,13 @@ class _LoadingPageState extends State<LoadingPage>
   }
 
   @override
+  void dispose() {
+    _rotationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final size = 250.0 - 20.0 * _breathe;
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -135,11 +130,27 @@ class _LoadingPageState extends State<LoadingPage>
             Positioned(
                 child: Align(
                     alignment: Alignment.center,
-                    child: Container(
-                        width: size,
-                        height: size,
-                        child:
-                            Image.asset('assets/images/bienmenu-logo.png')))),
+                    child: Stack(children: <Widget>[
+                      Container(
+                          width: 250,
+                          height: 250,
+                          child: Image.asset(
+                              'assets/images/bienmenu-logo-no-outter-shadow.png')),
+                      AnimatedBuilder(
+                        animation: _rotationController,
+                        child: Container(
+                            width: 250,
+                            height: 250,
+                            child: Image.asset(
+                                'assets/images/spinner-gradient.png')),
+                        builder: (BuildContext context, Widget _widget) {
+                          return Transform.rotate(
+                            angle: _rotationController.value * 30,
+                            child: _widget,
+                          );
+                        },
+                      )
+                    ])))
           ],
         ),
       ),

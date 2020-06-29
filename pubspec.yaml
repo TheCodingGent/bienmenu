@@ -46,6 +46,13 @@ dependencies:
   # fonts
   google_fonts: ^1.1.0
 
+  # native splash screen
+  flutter_native_splash: ^0.1.9
+
+flutter_native_splash:
+  image: assets/images/bienmenu-long-logo.png
+  color: "#fffef2"
+
 flutter_icons:
   android: true
   ios: true
@@ -73,6 +80,9 @@ flutter:
   assets:
     - assets/images/bienmenu-logo.png
     - assets/images/bienmenu-app-icon.png
+    - assets/images/spinner-gradient.png
+    - assets/images/spinner-gradient-2.png
+    - assets/images/bienmenu-logo-no-outter-shadow.png
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
   # To add custom fonts to your application, add a fonts section here,
