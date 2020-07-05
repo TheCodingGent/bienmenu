@@ -1,5 +1,5 @@
 name: bienmenu
-description: A new Flutter project.
+description: A mobile application that allows restaurant customers to browse the menu from their phone.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.

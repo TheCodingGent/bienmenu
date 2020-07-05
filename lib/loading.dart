@@ -18,7 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 class LoadingPage extends StatefulWidget {
   // initialize a field to hold the qr code result from the home screen, represents the restaurant id
   final String barcode;
-  final String serverUrl = 'http://192.168.1.66:3000';
+  final String serverUrl = "https://cryptic-dawn-36054.herokuapp.com";
 
   // on creation this screen requires a string qrCodeResult
   LoadingPage({Key key, @required this.barcode}) : super(key: key);
@@ -81,8 +81,9 @@ class _LoadingPageState extends State<LoadingPage>
             '. Error: ' +
             onError.toString());
         // need to pop-up a message and return home
-        _showDialog('Failed to fetch PDF file for menus...').then((value) =>
-            Navigator.push(
+        _showDialog(
+                'We encountered a problem with your connection, please verify that you are connected to the internet and try again...')
+            .then((value) => Navigator.push(
                 context, MaterialPageRoute(builder: (context) => HomePage())));
       });
     }).catchError((onError) {
@@ -91,8 +92,9 @@ class _LoadingPageState extends State<LoadingPage>
           '. Error: ' +
           onError.toString());
       // need to pop-up a message and return home
-      _showDialog('Failed to fetch menus for restaurant...').then((value) =>
-          Navigator.push(
+      _showDialog(
+              'We encountered a problem with your connection, please verify that you are connected to the internet and try again...')
+          .then((value) => Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage())));
     });
     super.initState();
