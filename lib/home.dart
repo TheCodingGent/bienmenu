@@ -11,7 +11,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   String barcode = "Not Yet Scanned";
-  bool scanSuccessful = false;
+
+  String _errorMessage = "";
+  bool _scanSuccessful = false;
   AnimationController _breathingController;
   var _breathe = 0.0;
 
@@ -75,18 +77,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     alignment: Alignment.center,
                     child: GestureDetector(
                         onTap: () async {
-                          debugPrint('Button clicked in page 1 clicked');
+                          await _scan();
 
-                          await scan();
-
-                          if (scanSuccessful) {
+                          if (_scanSuccessful) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => LoadingPage(
                                       barcode:
-                                          barcode)), // to send result returned from QR Code scan
+                                          barcode)), // to send result returned from QR Code scan // 5efd4752ba0b2b4711e39798 5ef6df8bac275f69875e7dab 5efd489da37ec6497af18ff1
                             );
+                          } else {
+                            if (_errorMessage != "") {
+                              _showDialog(this._errorMessage);
+                            }
                           }
                         },
                         child: Container(
@@ -103,30 +107,60 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
 // scan a barcode and set the result into the state
-  scan() async {
+  _scan() async {
     try {
       ScanResult codeSanner = await BarcodeScanner.scan(); //barcode scanner
       setState(() {
-        barcode = codeSanner.rawContent;
+        var barcodeContent = codeSanner.rawContent;
+        barcode = barcodeContent.substring(barcodeContent.lastIndexOf('/') +
+            1); // trims the url and keeps the restaurant ID
 
         if (barcode != '') {
           // no error occured and user did not cancel action
-          scanSuccessful = true;
+          _scanSuccessful = true;
         }
       });
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
-          this.barcode = 'Camera Permission Required';
+          this._errorMessage =
+              'Access to camera permission is required for app to work. Please check your settings and try again';
         });
       } else {
-        setState(() => this.barcode = 'Unknown error: $e');
+        setState(() => this._errorMessage =
+            'Unknown error: $e: Please contact us at bienmenuapp@gmail.com if problem persists, we appreciate your feedback and we apologize for the inconvenience');
       }
     } on FormatException {
-      setState(() => this.barcode =
-          'null (User returned using the "back" button before scanning anything)');
+      setState(() => this._errorMessage =
+          'Kindly wait for scan to finish before returning to the home screen');
     } catch (e) {
-      setState(() => this.barcode = 'Unknown error: $e');
+      setState(() => this._errorMessage =
+          'Unknown error: $e: Please contact us at bienmenuapp@gmail.com if problem persists, we appreciate your feedback and we apologize for the inconvenience');
     }
+  }
+
+  Future<void> _showDialog(String text) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Oops'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[Text(text)],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
