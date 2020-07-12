@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:bienmenu/home.dart';
-import 'package:bienmenu/menu_list.dart';
+import 'package:bienmenu/widgets/menu_list.dart';
 import 'package:bienmenu/model/menu.dart';
 import 'package:bienmenu/model/menutile.dart';
 import 'package:bienmenu/model/restaurant.dart';
@@ -79,7 +79,7 @@ class _LoadingPageState extends State<LoadingPage>
         //     '. Error: ' +
         //     onError.toString());
         // need to pop-up a message and return home
-        _showDialog(AppLocalization.of(context).menuPdfError +
+        _showDialog(AppLocalizations.of(context).menuPdfError +
                 ' ID: ' +
                 restaurant.name)
             .then((value) => Navigator.push(
@@ -91,7 +91,7 @@ class _LoadingPageState extends State<LoadingPage>
       //     '. Error: ' +
       //     onError.toString());
       // need to pop-up a message and return home
-      _showDialog(AppLocalization.of(context).restaurantDataError +
+      _showDialog(AppLocalizations.of(context).restaurantDataError +
               ' ID: ' +
               widget.barcode)
           .then((value) => Navigator.push(
@@ -123,7 +123,7 @@ class _LoadingPageState extends State<LoadingPage>
               left: 0.0,
               right: 0.0,
               child: Container(
-                child: Text(AppLocalization.of(context).loadingMessage,
+                child: Text(AppLocalizations.of(context).loadingMessage,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                         fontStyle: FontStyle.normal,

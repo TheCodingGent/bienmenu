@@ -75,7 +75,7 @@ class _MenuListPageState extends State<MenuListPage> {
                       subtitle: Row(
                         children: <Widget>[
                           Icon(Icons.touch_app, color: _textColor),
-                          Text(AppLocalization.of(context).tapToViewMenu,
+                          Text(AppLocalizations.of(context).tapToViewMenu,
                               style: TextStyle(color: _textColor))
                         ],
                       ),
