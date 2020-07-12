@@ -7,6 +7,7 @@ import 'package:bienmenu/menu_list.dart';
 import 'package:bienmenu/model/menu.dart';
 import 'package:bienmenu/model/menutile.dart';
 import 'package:bienmenu/model/restaurant.dart';
+import 'package:bienmenu/locale/app_localization.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -73,27 +74,26 @@ class _LoadingPageState extends State<LoadingPage>
           );
         }
       }).catchError((onError) {
-        print('An error occured while fetching PDFs for menus in restaurant: ' +
-            widget.barcode +
-            '. Error: ' +
-            onError.toString());
+        // print('An error occured while fetching PDFs for menus in restaurant: ' +
+        //     widget.barcode +
+        //     '. Error: ' +
+        //     onError.toString());
         // need to pop-up a message and return home
-        _showDialog(
-                'We encountered a problem while fetching the menus for restaurant ' +
-                    restaurant.name +
-                    '...')
+        _showDialog(AppLocalization.of(context).menuPdfError +
+                ' ID: ' +
+                restaurant.name)
             .then((value) => Navigator.push(
                 context, MaterialPageRoute(builder: (context) => HomePage())));
       });
     }).catchError((onError) {
-      print('An error occured while fetching menus for restaurant: ' +
-          widget.barcode +
-          '. Error: ' +
-          onError.toString());
+      // print('An error occured while fetching menus for restaurant: ' +
+      //     widget.barcode +
+      //     '. Error: ' +
+      //     onError.toString());
       // need to pop-up a message and return home
-      _showDialog('We were unable to fetch data for barcode: ' +
-              widget.barcode +
-              ' please make sure this barcode belongs to one of our partnered restaurants...')
+      _showDialog(AppLocalization.of(context).restaurantDataError +
+              ' ID: ' +
+              widget.barcode)
           .then((value) => Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage())));
     });
@@ -117,11 +117,13 @@ class _LoadingPageState extends State<LoadingPage>
         child: Stack(
           children: <Widget>[
             Positioned(
-              top: 120,
+              top: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? 120
+                  : 12,
               left: 0.0,
               right: 0.0,
               child: Container(
-                child: Text("Sit tight! We are getting your menu ready!",
+                child: Text(AppLocalization.of(context).loadingMessage,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                         fontStyle: FontStyle.normal,

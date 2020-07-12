@@ -1,0 +1,58 @@
+{
+  "@@last_modified": "2020-07-09T18:23:25.306919",
+  "tapToScan": "Tapez pour Scanner",
+  "@tapToScan": {
+    "description": "Instructions de la page d'accueil",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "loadingMessage": "Nous préparons votre menu",
+  "@loadingMessage": {
+    "description": "Message de chargement",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "tapToViewMenu": "Tapez ici pour voir le menu",
+  "@tapToViewMenu": {
+    "description": "Instructions d'accès au menu ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "cameraError": "BienMenu requiert l'accès à votre caméra. Veuillez ajuster vos réglages et réessayer.",
+  "@cameraError": {
+    "description": "Message d'erreur d'accès à la caméra ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "backButtonError": "Veuillez attendre que la numérisation se termine avant d'appuyer sur le bouton retour.",
+  "@backButtonError": {
+    "description": "Message d'erreur du bouton retour ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "menuPdfError": "Nous faisons face à un problème pour récupérer le menu. Veuillez essayer de nouveau ou nous faire part du problème à www.bienmenuapp.com/report s'il persiste.",
+  "@menuPdfError": {
+    "description": "Impossibilité de récupérer le menu ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "restaurantDataError": "Impossible de récupérer l'information pour ce Code QR. Soit ce code QR n'appartient à aucun de nos restaurants partenaires ou notre serveur est temporairement indisponible. Veuillez essayer de nouveau ou nous faire part du problème à www.bienmenuapp.com/report s'il persiste.",
+  "@restaurantDataError": {
+    "description": "Impossibilité de lier le code QR à un menu ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "unknownError": "Erreur inconnue: Veuillez essayer de nouveau ou nous faire part du problème à bienmenuapp.com/report s'il persiste. Nous apprécions vos commentaires et nous excusons de tout inconvénient.",
+  "@unknownError": {
+    "description": "Message d'erreur inconnue ",
+    "type": "text",
+    "placeholders": {}
+  }
+}

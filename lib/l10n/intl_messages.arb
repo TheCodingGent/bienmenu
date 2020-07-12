@@ -1,0 +1,9 @@
+{
+  "@@last_modified": "2020-07-09T18:23:25.306919",
+  "tapToScan": "Tap to Scan",
+  "@tapToScan": {
+    "description": "Homepage instruction",
+    "type": "text",
+    "placeholders": {}
+  }
+}

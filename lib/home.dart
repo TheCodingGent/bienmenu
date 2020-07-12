@@ -1,4 +1,5 @@
 import 'package:bienmenu/loading.dart';
+import 'package:bienmenu/locale/app_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   String barcode = "Not Yet Scanned";
-
+  List<bool> isSelected = [true, false];
   String _errorMessage = "";
   bool _scanSuccessful = false;
   AnimationController _breathingController;
@@ -48,7 +49,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final size = 250.0 - 20.0 * _breathe;
-    //final size = 250.0;
     return new WillPopScope(
         onWillPop: () => SystemNavigator.pop(),
         child: Scaffold(
@@ -60,11 +60,65 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: Stack(
               children: <Widget>[
                 Positioned(
-                  top: 120,
+                  child: Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                          child: LayoutBuilder(builder: (context, constraints) {
+                        return ToggleButtons(
+                            color: Colors.white,
+                            selectedColor: Colors.teal[700],
+                            fillColor: Colors.white,
+                            borderColor: Colors.white,
+                            borderWidth: 3,
+                            selectedBorderColor: Colors.teal[700],
+                            renderBorder: true,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(25),
+                                bottomRight: Radius.circular(25)),
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.only(left: 0, right: 0),
+                                  child: Text('EN',
+                                      style: GoogleFonts.openSans(
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold))),
+                              Text('FR',
+                                  style: GoogleFonts.openSans(
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold))
+                            ],
+                            onPressed: (int index) {
+                              setState(() {
+                                for (int buttonIndex = 0;
+                                    buttonIndex < isSelected.length;
+                                    buttonIndex++) {
+                                  if (buttonIndex == index) {
+                                    isSelected[buttonIndex] = true;
+                                  } else {
+                                    isSelected[buttonIndex] = false;
+                                  }
+                                }
+
+                                if (index == 0)
+                                  AppLocalization.load(Locale('en', 'US'));
+                                else if (index == 1)
+                                  AppLocalization.load(Locale('fr', ''));
+                              });
+                            },
+                            isSelected: isSelected);
+                      }))),
+                ),
+                Positioned(
+                  top:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? 120
+                          : 12,
                   left: 0.0,
                   right: 0.0,
                   child: Container(
-                    child: Text("Tap to Scan",
+                    child: Text(AppLocalization.of(context).tapToScan,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.lobsterTwo(
                             fontStyle: FontStyle.normal,
@@ -123,19 +177,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
-          this._errorMessage =
-              'Access to camera permission is required for app to work. Please check your settings and try again';
+          this._errorMessage = AppLocalization.of(context).cameraError;
         });
       } else {
         setState(() => this._errorMessage =
-            'Unknown error: $e: Please contact us at bienmenuapp@gmail.com if problem persists, we appreciate your feedback and we apologize for the inconvenience');
+            AppLocalization.of(context).unknownError + ' ' + e.toString());
       }
     } on FormatException {
-      setState(() => this._errorMessage =
-          'Kindly wait for scan to finish before returning to the home screen');
+      setState(() =>
+          this._errorMessage = AppLocalization.of(context).backButtonError);
     } catch (e) {
       setState(() => this._errorMessage =
-          'Unknown error: $e: Please contact us at bienmenuapp@gmail.com if problem persists, we appreciate your feedback and we apologize for the inconvenience');
+          AppLocalization.of(context).unknownError + ' ' + e.toString());
     }
   }
 

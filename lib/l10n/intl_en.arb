@@ -1,0 +1,58 @@
+{
+  "@@last_modified": "2020-07-09T18:23:25.306919",
+  "tapToScan": "Tap to Scan",
+  "@tapToScan": {
+    "description": "Homepage instruction ",
+    "type": "text",
+    "placeholders": {}
+  },
+  
+  "loadingMessage": "Sit tight! We are getting your menu ready!",
+  "@loadingMessage": {
+    "description": "Loading page message ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "tapToViewMenu": "Tap to view menu",
+  "@tapToViewMenu": {
+    "description": "Menu tile instruction ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "cameraError": "Access to camera permission is required for the app to work. Please check your settings and try again",
+  "@cameraError": {
+    "description": "Camera access error message ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "backButtonError": "Kindly wait for scan to finish before pressing back button.",
+  "@backButtonError": {
+    "description": "Back button error message ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "menuPdfError": "We encountered a problem while fetching the menus for restaurant. If problem persists kindly report the problem at www.bienmenuapp.com/report.",
+  "@menuPdfError": {
+    "description": "Failed to fetch pdf menus error ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "restaurantDataError": "We were unable to fetch data for the barcode. Either this barcode does not belong to one of our partner restaurants or the server may be temporarily unavailable please try again or if problem persists kindly report the problem at www.bienmenuapp.com/report.",
+  "@restaurantDataError": {
+    "description": "Failed to fetch restaurant data error ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "unknownError": "Unknown error occurred: we apologize for the inconvenience. If problem persists kindly report the problem at www.bienmenuapp.com/report.",
+  "@unknownError": {
+    "description": "Unknown error message ",
+    "type": "text",
+    "placeholders": {}
+  }
+}

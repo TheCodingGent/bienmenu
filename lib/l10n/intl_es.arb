@@ -1,0 +1,9 @@
+{
+  "@@last_modified": "2020-07-09T18:23:25.306919",
+  "tapToScan": "Toque para escanear",
+  "@tapToScan": {
+    "description": "Instrucciones de inicio",
+    "type": "text",
+    "placeholders": {}
+  }
+}

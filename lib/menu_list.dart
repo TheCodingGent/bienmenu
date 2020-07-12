@@ -1,6 +1,7 @@
 import 'package:bienmenu/home.dart';
 import 'package:bienmenu/model/menutile.dart';
 import 'package:bienmenu/model/restaurant.dart';
+import 'package:bienmenu/locale/app_localization.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,7 @@ class _MenuListPageState extends State<MenuListPage> {
                       subtitle: Row(
                         children: <Widget>[
                           Icon(Icons.touch_app, color: _textColor),
-                          Text(" Tap to view menu",
+                          Text(AppLocalization.of(context).tapToViewMenu,
                               style: TextStyle(color: _textColor))
                         ],
                       ),
