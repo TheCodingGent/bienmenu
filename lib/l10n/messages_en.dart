@@ -23,11 +23,22 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "backButtonError" : MessageLookupByLibrary.simpleMessage("Kindly wait for scan to finish before pressing back button."),
     "cameraError" : MessageLookupByLibrary.simpleMessage("Access to camera permission is required for the app to work. Please check your settings and try again"),
+    "closeButtonText" : MessageLookupByLibrary.simpleMessage("Close"),
+    "contactTracingMessage" : MessageLookupByLibrary.simpleMessage("For your safety and the safety of our employees please take the time to fill in our form for contact tracing due to COVID-19. Your information will be kept strictly confidential and used only for contact tracing. Thank you in helping us all stay safe."),
+    "emailInvalid" : MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
+    "emailRequired" : MessageLookupByLibrary.simpleMessage("Email is required"),
+    "formLabelEmail" : MessageLookupByLibrary.simpleMessage("Email"),
+    "formLabelName" : MessageLookupByLibrary.simpleMessage("Name"),
+    "formLabelNumber" : MessageLookupByLibrary.simpleMessage("Telephone"),
     "loadingMessage" : MessageLookupByLibrary.simpleMessage("Sit tight! We are getting your menu ready!"),
-    "menuPdfError" : MessageLookupByLibrary.simpleMessage("We encountered a problem while fetching the menus for restaurant. If problem persists kindly report the problem at www.bienmenuapp.com/report."),
-    "restaurantDataError" : MessageLookupByLibrary.simpleMessage("We were unable to fetch data for the barcode. Either this barcode does not belong to one of our partner restaurants or the server may be temporarily unavailable please try again or if problem persists kindly report the problem at www.bienmenuapp.com/report."),
+    "menuPdfError" : MessageLookupByLibrary.simpleMessage("We encountered a problem while fetching the menus for restaurant. If problem persists, we would appreciate any feedback at info@bienmenuapp.com"),
+    "nameRequired" : MessageLookupByLibrary.simpleMessage("Name is required"),
+    "phoneInvalid" : MessageLookupByLibrary.simpleMessage("Please enter a valid phone number"),
+    "restaurantDataError" : MessageLookupByLibrary.simpleMessage("We were unable to fetch data for the barcode. Either this barcode does not belong to one of our partner restaurants or the server may be temporarily unavailable please try again or if problem persists, we would appreciate any feedback at info@bienmenuapp.com"),
+    "submitButtonText" : MessageLookupByLibrary.simpleMessage("Submit"),
     "tapToScan" : MessageLookupByLibrary.simpleMessage("Tap to Scan"),
     "tapToViewMenu" : MessageLookupByLibrary.simpleMessage("Tap to view menu"),
-    "unknownError" : MessageLookupByLibrary.simpleMessage("Unknown error occurred: we apologize for the inconvenience. If problem persists kindly report the problem at www.bienmenuapp.com/report.")
+    "termsAcceptMessage" : MessageLookupByLibrary.simpleMessage("By clicking this box I agree to the"),
+    "unknownError" : MessageLookupByLibrary.simpleMessage("Unknown error occurred: we apologize for the inconvenience. If problem persists, we would appreciate any feedback at info@bienmenuapp.com")
   };
 }

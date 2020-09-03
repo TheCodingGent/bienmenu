@@ -21,6 +21,49 @@
     "placeholders": {}
   },
 
+  "contactTracingMessage": "For your safety and the safety of our employees please take the time to fill in our form for contact tracing due to COVID-19. Your information will be kept strictly confidential and used only for contact tracing. Thank you in helping us all stay safe.",
+  "@contactTracingMessage": {
+    "description": "Message notice for contact tracing form ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "formLabelName": "Name",
+  "@formLabelName": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "formLabelEmail": "Email",
+  "@formLabelEmail": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "formLabelNumber": "Telephone",
+  "@formLabelNumber": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "termsAcceptMessage": "By clicking this box I agree to the",
+  "@termsAcceptMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "submitButtonText": "Submit",
+  "@submitButtonText": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "closeButtonText": "Close",
+  "@closeButtonText": {
+    "type": "text",
+    "placeholders": {}
+  },
+
   "cameraError": "Access to camera permission is required for the app to work. Please check your settings and try again",
   "@cameraError": {
     "description": "Camera access error message ",
@@ -35,23 +78,47 @@
     "placeholders": {}
   },
 
-  "menuPdfError": "We encountered a problem while fetching the menus for restaurant. If problem persists kindly report the problem at www.bienmenuapp.com/report.",
+  "menuPdfError": "We encountered a problem while fetching the menus for restaurant. If problem persists, we would appreciate any feedback at info@bienmenuapp.com",
   "@menuPdfError": {
     "description": "Failed to fetch pdf menus error ",
     "type": "text",
     "placeholders": {}
   },
 
-  "restaurantDataError": "We were unable to fetch data for the barcode. Either this barcode does not belong to one of our partner restaurants or the server may be temporarily unavailable please try again or if problem persists kindly report the problem at www.bienmenuapp.com/report.",
+  "restaurantDataError": "We were unable to fetch data for the barcode. Either this barcode does not belong to one of our partner restaurants or the server may be temporarily unavailable please try again or if problem persists, we would appreciate any feedback at info@bienmenuapp.com",
   "@restaurantDataError": {
     "description": "Failed to fetch restaurant data error ",
     "type": "text",
     "placeholders": {}
   },
 
-  "unknownError": "Unknown error occurred: we apologize for the inconvenience. If problem persists kindly report the problem at www.bienmenuapp.com/report.",
+  "unknownError": "Unknown error occurred: we apologize for the inconvenience. If problem persists, we would appreciate any feedback at info@bienmenuapp.com",
   "@unknownError": {
     "description": "Unknown error message ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "nameRequired": "Name is required",
+  "@nameRequired": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "emailRequired": "Email is required",
+  "@emailRequired": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "emailInvalid": "Please enter a valid email",
+  "@emailInvalid": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "phoneInvalid": "Please enter a valid phone number",
+  "@phoneInvalid": {
     "type": "text",
     "placeholders": {}
   }

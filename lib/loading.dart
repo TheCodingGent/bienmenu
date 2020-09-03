@@ -3,11 +3,15 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:bienmenu/home.dart';
+import 'package:bienmenu/widgets/contact_tracing.dart';
 import 'package:bienmenu/widgets/menu_list.dart';
 import 'package:bienmenu/model/menu.dart';
 import 'package:bienmenu/model/menutile.dart';
 import 'package:bienmenu/model/restaurant.dart';
 import 'package:bienmenu/locale/app_localization.dart';
+
+import 'package:bienmenu/env.dart';
+import 'package:bienmenu/utils.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +24,7 @@ import 'package:google_fonts/google_fonts.dart';
 class LoadingPage extends StatefulWidget {
   // initialize a field to hold the qr code result from the home screen, represents the restaurant id
   final String barcode;
-  final String _serverUrl = "https://cryptic-dawn-36054.herokuapp.com";
+  final String _serverUrl = environment['API_URL'];
 
   // on creation this screen requires a string qrCodeResult
   LoadingPage({Key key, @required this.barcode}) : super(key: key);
@@ -57,7 +61,7 @@ class _LoadingPageState extends State<LoadingPage>
       }
 
       _fetchAllMenuPdfs(restaurant.menus).then((menuTiles) {
-        if (menuTiles.length == 1) {
+        if (menuTiles.length == 1 && !restaurant.tracingEnabled) {
           // if there's only one pdf open it right away
           OpenFile.open(menuTiles.first.filePath);
           Navigator.push(
@@ -72,28 +76,22 @@ class _LoadingPageState extends State<LoadingPage>
                       restaurant: _restaurant,
                     )),
           );
+
+          if (restaurant.tracingEnabled) {
+            // show the contact tracing form
+            _showContactTracingDialog(restaurant.id);
+          }
         }
       }).catchError((onError) {
-        // print('An error occured while fetching PDFs for menus in restaurant: ' +
-        //     widget.barcode +
-        //     '. Error: ' +
-        //     onError.toString());
-        // need to pop-up a message and return home
-        _showDialog(AppLocalizations.of(context).menuPdfError +
-                ' ID: ' +
-                restaurant.name)
+        //pop-up a message and return home
+        showMessageDialog(AppLocalizations.of(context).menuPdfError, context)
             .then((value) => Navigator.push(
                 context, MaterialPageRoute(builder: (context) => HomePage())));
       });
     }).catchError((onError) {
-      // print('An error occured while fetching menus for restaurant: ' +
-      //     widget.barcode +
-      //     '. Error: ' +
-      //     onError.toString());
-      // need to pop-up a message and return home
-      _showDialog(AppLocalizations.of(context).restaurantDataError +
-              ' ID: ' +
-              widget.barcode)
+      // pop-up a message and return home
+      showMessageDialog(
+              AppLocalizations.of(context).restaurantDataError, context)
           .then((value) => Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage())));
     });
@@ -165,7 +163,7 @@ class _LoadingPageState extends State<LoadingPage>
 
   Future<Restaurant> _fetchRestaurant(String restaurantId) async {
     final response =
-        await http.get(widget._serverUrl + '/restaurants/' + restaurantId);
+        await http.get(widget._serverUrl + 'restaurants/' + restaurantId);
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -185,7 +183,7 @@ class _LoadingPageState extends State<LoadingPage>
 // given a menu name fetch the pdf matching the pdf name from the server parse it into bytes then write it to a file
   Future<File> _fetchMenuPdf(String filename) async {
     final url =
-        widget._serverUrl + '/menu/pdf/' + _restaurant.id + '/' + filename;
+        widget._serverUrl + 'menu/pdf/' + _restaurant.id + '/' + filename;
     final localFilename = _restaurant.id + '_' + filename + '.pdf';
     var request = await HttpClient().getUrl(Uri.parse(url));
     var response = await request.close();
@@ -213,39 +211,34 @@ class _LoadingPageState extends State<LoadingPage>
 
     //retrieve all pdfs
     for (final m in menus) {
-      // check if file exists then do not fetch
       final menuPdfFilePath =
           '$dir/' + _restaurant.id + '_' + m.filename + '.pdf';
-      if (!await File(menuPdfFilePath).exists()) {
+      File menuFile = File(menuPdfFilePath);
+
+      // if the file does not exist
+      if (!await menuFile.exists()) {
         await _fetchMenuPdf(m.filename);
+      } else {
+        // if file exists, check if the current stored file is older than the lastupdated timestamp of the menu
+        DateTime lastModified = await menuFile.lastModified();
+
+        if (lastModified.toUtc().isBefore(DateTime.parse(m.lastUpdated))) {
+          await _fetchMenuPdf(m.filename);
+        }
       }
       menuTiles.add(new MenuTile(m.name, menuPdfFilePath));
     }
     return menuTiles;
   }
 
-  Future<void> _showDialog(String text) async {
+  Future<void> _showContactTracingDialog(String restaurantId) async {
     return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Oops!'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[Text(text)],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return ContactTracingDialog(
+            restaurantId: restaurantId,
+          );
+        });
   }
 }

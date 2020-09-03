@@ -21,6 +21,48 @@
     "placeholders": {}
   },
 
+  "contactTracingMessage": "Pour votre sécurité et celle de nos employés, veuillez prendre le temps de remplir notre formulaire pour la recherche des contacts en raison du COVID-19. Vos informations resteront strictement confidentielles et ne seront utilisées que pour la recherche des contacts. Nous vous remercions de nous aider à assurer notre sécurité à tous.",
+  "@contactTracingMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "formLabelName": "Nom",
+  "@formLabelName": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "formLabelEmail": "Courriel",
+  "@formLabelEmail": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "formLabelNumber": "Téléphone",
+  "@formLabelNumber": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "termsAcceptMessage": "En cochant cette boîte, j'accepte les",
+  "@termsAcceptMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "submitButtonText": "Soumettre",
+  "@submitButtonText": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "closeButtonText": "Fermer",
+  "@closeButtonText": {
+    "type": "text",
+    "placeholders": {}
+  },
+
   "cameraError": "BienMenu requiert l'accès à votre caméra. Veuillez ajuster vos réglages et réessayer.",
   "@cameraError": {
     "description": "Message d'erreur d'accès à la caméra ",
@@ -35,23 +77,47 @@
     "placeholders": {}
   },
 
-  "menuPdfError": "Nous faisons face à un problème pour récupérer le menu. Veuillez essayer de nouveau ou nous faire part du problème à www.bienmenuapp.com/report s'il persiste.",
+  "menuPdfError": "Nous faisons face à un problème pour récupérer le menu. Veuillez essayer de nouveau ou nous faire part du problème à info@bienmenuapp.com s'il persiste.",
   "@menuPdfError": {
     "description": "Impossibilité de récupérer le menu ",
     "type": "text",
     "placeholders": {}
   },
 
-  "restaurantDataError": "Impossible de récupérer l'information pour ce Code QR. Soit ce code QR n'appartient à aucun de nos restaurants partenaires ou notre serveur est temporairement indisponible. Veuillez essayer de nouveau ou nous faire part du problème à www.bienmenuapp.com/report s'il persiste.",
+  "restaurantDataError": "Impossible de récupérer l'information pour ce Code QR. Soit ce code QR n'appartient à aucun de nos restaurants partenaires ou notre serveur est temporairement indisponible. Veuillez essayer de nouveau ou nous faire part du problème à info@bienmenuapp.com s'il persiste.",
   "@restaurantDataError": {
     "description": "Impossibilité de lier le code QR à un menu ",
     "type": "text",
     "placeholders": {}
   },
 
-  "unknownError": "Erreur inconnue: Veuillez essayer de nouveau ou nous faire part du problème à bienmenuapp.com/report s'il persiste. Nous apprécions vos commentaires et nous excusons de tout inconvénient.",
+  "unknownError": "Erreur inconnue: Veuillez essayer de nouveau ou nous faire part du problème à info@bienmenuapp.com s'il persiste. Nous apprécions vos commentaires et nous excusons de tout inconvénient.",
   "@unknownError": {
     "description": "Message d'erreur inconnue ",
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "nameRequired": "Le nom est requis",
+  "@nameRequired": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "emailRequired": "Le courriel est requis",
+  "@emailRequired": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "emailInvalid": "Veuillez entrer un courriel valide",
+  "@emailInvalid": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "phoneInvalid": "Veuillez entrer un numéro de téléphone valide",
+  "@phoneInvalid": {
     "type": "text",
     "placeholders": {}
   }

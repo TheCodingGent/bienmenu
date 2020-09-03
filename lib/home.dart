@@ -103,9 +103,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 //                   }
                 //                 }
                 //                 if (index == 0)
-                //                   AppLocalization.load(Locale('en', 'US'));
+                //                   AppLocalizations.load(Locale('en', 'US'));
                 //                 else if (index == 1)
-                //                   AppLocalization.load(Locale('fr', ''));
+                //                   AppLocalizations.load(Locale('fr', ''));
                 //               });
                 //             },
                 //             isSelected: isSelected);
@@ -139,8 +139,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => LoadingPage(
-                                      barcode:
-                                          barcode)), // to send result returned from QR Code scan // 5efd4752ba0b2b4711e39798 5ef6df8bac275f69875e7dab 5efd489da37ec6497af18ff1
+                                      barcode: this
+                                          .barcode)), // to send result returned from QR Code scan //5f1b1d664f17a784e368e9a2 5f0b6ea3742bcba040ce4102 5ef6df8bac275f69875e7dab
                             );
                           } else {
                             if (_errorMessage != "") {
